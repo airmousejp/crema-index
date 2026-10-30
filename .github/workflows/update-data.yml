@@ -1,0 +1,25 @@
+name: Update Crema data
+
+on:
+  schedule:
+    # UTC 22:30 = 한국시간 07:30 (미국 장 마감 후, 화~토 아침)
+    - cron: '30 22 * * 1-5'
+  workflow_dispatch: {}
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch market data
+        shell: pwsh
+        run: ./update-data.ps1
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data.js history-data.js
+          git diff --cached --quiet || git commit -m "chore: update market data"
+          git push
