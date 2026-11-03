@@ -211,7 +211,7 @@ try {
 # --- 5) Write data.js / history-data.js ---
 
 
-$updatedAt = (Get-Date).ToString("yyyy-MM-dd HH:mm")
+$updatedAt = [DateTime]::UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm")+" KST"
 
 
 $enc = New-Object Text.UTF8Encoding $false
