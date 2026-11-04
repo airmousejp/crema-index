@@ -2,9 +2,11 @@ name: Update Crema data
 
 on:
   schedule:
-    # UTC 22:30 = 한국시간 07:30 (미국 장 마감 후, 화~토 아침)
-    - cron: '30 22 * * 1-5'
-    - cron: '30 23 * * 1-5'
+    # GitHub cron은 수 시간 지연될 수 있어 슬롯 4개로 분산 (붐비는 :00/:30 대신 :07 사용)
+    - cron: '7 21 * * 1-5'   # KST 06:07 (미국 장 마감 직후)
+    - cron: '7 23 * * 1-5'   # KST 08:07
+    - cron: '7 1 * * 2-6'    # KST 10:07 (UTC 자정이 지나 요일이 화~토)
+    - cron: '7 3 * * 2-6'    # KST 12:07
   workflow_dispatch: {}
 
 jobs:
